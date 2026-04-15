@@ -10,7 +10,7 @@ async function init() {
     "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, email TEXT)"
   );
   await conn.exec(
-    "INSERT INTO users(name, email) VALUES ('c', 'd')"
+    "INSERT INTO users(name, email) VALUES ('ha', 'ha')"
   );
 }
 
