@@ -15,6 +15,8 @@ async function init() {
 }
 
 export default async function handler(req, res) {
+    console.info(process.env.TURSO_DATABASE_URL);
+    console.info(process.env.TURSO_AUTH_TOKEN);
   try {
     await init();
     const result = await conn.execute("SELECT * FROM users LIMIT 100");
