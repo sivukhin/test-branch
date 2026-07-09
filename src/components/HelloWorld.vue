@@ -1,11 +1,24 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 defineProps({
   msg: String,
 })
 
 const count = ref(0)
+const rows = ref([])
+const error = ref(null)
+
+onMounted(async () => {
+  try {
+    const res = await fetch('/api/users')
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || 'Request failed')
+    rows.value = data.rows
+  } catch (err) {
+    error.value = err.message
+  }
+})
 </script>
 
 <template>
@@ -17,6 +30,15 @@ const count = ref(0)
       Edit
       <code>components/HelloWorld.vue</code> to test HMR
     </p>
+  </div>
+
+  <div class="card">
+    <h2>Users from Turso</h2>
+    <p v-if="error" class="error">Error: {{ error }}</p>
+    <ul v-else-if="rows.length">
+      <li v-for="(row, i) in rows" :key="i">{{ JSON.stringify(row) }}</li>
+    </ul>
+    <p v-else>Loading…</p>
   </div>
 
   <p>
